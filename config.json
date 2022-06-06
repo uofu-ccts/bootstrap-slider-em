@@ -1,0 +1,49 @@
+{
+	"name": "BootstrapSliderEM",
+
+	"namespace": "Utah\\BootstrapSliderEM",
+
+	"description": "This module configures a bootstrap slider within a descriptive text field, with multiple data points enabled within the slider",
+
+	"documentation": "README.md",
+
+	"authors": [		{
+			"name": "Sumon Chattopadhyay",
+			"email": "sumon.chattopadhyay@utah.edu",
+			"institution": "University of Utah BMIC"
+		}
+	],
+
+	"permissions": [
+	],
+	
+	"enable-every-page-hooks-on-system-pages":false,	
+
+	"links": {
+		"project": [
+		],
+		"control-center": [
+		]
+	},
+
+	"no-auth-pages": [
+	],
+
+	"project-settings": [
+
+	],
+
+	"system-settings": [
+
+	],
+
+	"crons": [
+	],
+
+	"compatibility": {
+		"php-version-min": "",
+		"php-version-max": "",
+		"redcap-version-min": "",
+		"redcap-version-max": ""
+	}
+}
