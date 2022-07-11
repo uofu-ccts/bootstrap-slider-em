@@ -8,6 +8,11 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
   protected $styleSheetURL = "";
   protected $jsFileURL = "";
 
+  // variables to store settings
+  // this is where slider variables and settings are configured
+
+  protected $configuredVariables = [];
+
   function __construct()
   {
     parent::__construct(); // run the AbstractExternalModule constructor
@@ -17,6 +22,9 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
 
     // this will resolve to the URL for the JS file, taking into account the version directory etc
     $this->jsFileURL = $this->getUrl("js/bootstrap-slider.js");
+
+    // access EM project settings and return array of variables set
+    $this->configuredVariables = $this->getProjectSettings();
   } // __construct
 
   function redcap_survey_page_top($project_id, $record, $instrument)
@@ -29,34 +37,8 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
     $this->bootstrapSliderHook();
   }
 
-  function bootstrapSlider()
-  {
-    ?>
-    <script>
-      // attach the style sheet to this page
-      console.log(`attaching stylesheet from <?php echo $this->styleSheetURL ?>`)
-      $('head').append("<link rel='stylesheet' type='text/css' href='<?php echo $this->styleSheetURL ?>'>");
-
-      // attach the js file to this page
-      console.log(`attaching JS file from <?php echo $this->jsFileURL ?>`)
-      $('head').append("<script type='text/javascript' src='<?php echo $this->jsFileURL ?>'>");
-
-      // jQuery doc load callback function
-      $(document).ready(function() {
-        // add div where bootstrapSlider will reside
-        console.log(`creating bootstrapSlider div`)
-        $('#slider_descriptive-tr').after("<div id='bootstrapSlider'></div>");
-
-        console.log(`creating p tag`)
-        $('#bootstrapSlider').load("<p>this is here as a test</p>");
-      });
-    </script>
-    <?php
-
-  } // bootstrapSlider
-
   function bootstrapSliderHook()
-  {
+  { 
     $sliderDivClass  = 'rangeslider';
 
     //redcap_info();
@@ -85,6 +67,10 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
 
       // attach the js file to this page
       $('head').append("<script type='text/javascript' src='<?php echo $this->jsFileURL ?>'>");
+
+      // print to console the configured variables
+      console.log(<?php echo json_encode($this->configuredVariables) ?>);
+      
     </script>
     <style>
       #slider12a .slider-track-high, #slider12c .slider-track-high {
@@ -132,7 +118,8 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
         position: relative;
         right: 30px;
       }
-        .rangeslider_text_right {
+      
+      .rangeslider_text_right {
         color: blue;
         position: relative;
         left: 280px;
@@ -146,8 +133,6 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
         $(".<?php echo $sliderDivClass ?>").each(function( i ) {
 
           var fieldvar = $(this).closest('tr').attr('sq_id');
-
-          var idSelector = fieldvar;
 
           var fieldvar_1 = fieldvar + '<?php echo $leftMarkerFieldnameSuffix ?>';
           var fieldvar_2 = fieldvar + '<?php echo $rightMarkerFieldnameSuffix ?>';
@@ -164,8 +149,7 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
           //var leftColor = {$colorLeftside};
           //var rightcolor = {$colorRightside};
 
-          //$('#'+idSelector).bootstrapSlider({
-          $('#'+idSelector).slider({
+          $('#'+fieldvar).slider({
             id: "myslider",
             classes: { "rangeslider": "testslider" },
             range: true,
@@ -185,7 +169,7 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
           });
         });
       });
-        </script>
+    </script>
     <?php
   }
 }

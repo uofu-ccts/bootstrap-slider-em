@@ -32,7 +32,33 @@
 	],
 
 	"project-settings": [
-
+    {
+      "key": "slide-location",
+      "name": "Location of Slider",
+      "required": true,
+      "type": "sub_settings",
+      "repeatable": true,
+      "sub_settings": [
+        {
+          "key": "descriptive-text-loc",
+          "name": "Descriptive text field to place slider",
+          "required": true,
+          "type": "field-list"
+        },
+        {
+          "key": "left-data-loc",
+          "name": "Left (low value) data point for this slider",
+          "required": true,
+          "type": "field-list"
+        },
+        {
+          "key": "right-data-loc",
+          "name": "Right (high value) data point for this slider",
+          "required": true,
+          "type": "field-list"
+        }
+      ]
+    }
 	],
 
 	"system-settings": [
