@@ -52,10 +52,22 @@
           "type": "field-list"
         },
         {
+          "key": "left-data-text",
+          "name": "Text to show on left (low value) side of slider",
+          "required": true,
+          "type": "text"
+        },
+        {
           "key": "right-data-loc",
           "name": "Right (high value) data point for this slider",
           "required": true,
           "type": "field-list"
+        },
+        {
+          "key": "right-data-text",
+          "name": "Text to show on right (high value) side of slider",
+          "required": true,
+          "type": "text"
         }
       ]
     }

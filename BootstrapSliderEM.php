@@ -78,7 +78,9 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
 
       const descriptiveTextLoc = JSconfiguredVariables["descriptive-text-loc"]["value"];
       const leftDataLoc = JSconfiguredVariables["left-data-loc"]["value"];
+      const leftDataText = JSconfiguredVariables["left-data-text"]["value"];
       const rightDataLoc = JSconfiguredVariables["right-data-loc"]["value"];
+      const rightDataText = JSconfiguredVariables["right-data-text"]["value"];
       
     </script>
     <style>
@@ -139,19 +141,29 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
 
       $(document).ready( function(){
 
-        // insert required elements into the designated div element
-        const html = `
-            <br>
-            <br>
-            <div class="rangeslider" id="sad"></div>
-            <br>
-            <span class="rangeslider_text_left">all I noticed was sas</span>
-            <span class="rangeslider_text_right">no happiness sad</span>
-          `
-        $('div[data-mlm-field="sad"]').append(html);
-
+        // insert required elements into the designated div elements
         console.log(JSconfiguredVariables["descriptive-text-loc"]["value"]);
         console.log(descriptiveTextLoc);
+        
+        descriptiveTextLoc.forEach(function(sliderId, index) {
+          console.log(sliderId);
+          console.log(leftDataLoc[index]);
+          console.log(leftDataText[index]);
+          console.log(rightDataLoc[index]);
+          console.log(rightDataText[index]);
+
+          const html = `
+            <br>
+            <br>
+            <div class="rangeslider" id="${sliderId}"></div>
+            <br>
+            <span class="rangeslider_text_left">${leftDataText[index]}</span>
+            <span class="rangeslider_text_right">${rightDataText[index]}</span>
+          `
+
+          $(`div[data-mlm-field="${sliderId}"]`).append(html);
+
+        });
 
         $(".<?php echo $sliderDivClass ?>").each(function( i ) {
 
