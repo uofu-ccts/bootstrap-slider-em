@@ -73,8 +73,12 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
       // attach the js file to this page
       $('head').append("<script type='text/javascript' src='<?php echo $this->jsFileURL ?>'>");
 
-      // print to console the configured variables
-      console.log(<?php echo json_encode($this->configuredVariables) ?>);
+      // save configured variables in JS to extract information we want
+      const JSconfiguredVariables = <?php echo json_encode($this->configuredVariables) ?>;
+
+      const descriptiveTextLoc = JSconfiguredVariables["descriptive-text-loc"]["value"];
+      const leftDataLoc = JSconfiguredVariables["left-data-loc"]["value"];
+      const rightDataLoc = JSconfiguredVariables["right-data-loc"]["value"];
       
     </script>
     <style>
@@ -134,6 +138,20 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
     <script type="text/javascript">
 
       $(document).ready( function(){
+
+        // insert required elements into the designated div element
+        const html = `
+            <br>
+            <br>
+            <div class="rangeslider" id="sad"></div>
+            <br>
+            <span class="rangeslider_text_left">all I noticed was sas</span>
+            <span class="rangeslider_text_right">no happiness sad</span>
+          `
+        $('div[data-mlm-field="sad"]').append(html);
+
+        console.log(JSconfiguredVariables["descriptive-text-loc"]["value"]);
+        console.log(descriptiveTextLoc);
 
         $(".<?php echo $sliderDivClass ?>").each(function( i ) {
 
