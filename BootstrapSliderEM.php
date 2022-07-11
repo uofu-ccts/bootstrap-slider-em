@@ -145,8 +145,8 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
         console.log(JSconfiguredVariables["descriptive-text-loc"]["value"]);
         console.log(descriptiveTextLoc);
         
-        descriptiveTextLoc.forEach(function(sliderId, index) {
-          console.log(sliderId);
+        descriptiveTextLoc.forEach(function(fieldvar, index) {
+          console.log(fieldvar);
           console.log(leftDataLoc[index]);
           console.log(leftDataText[index]);
           console.log(rightDataLoc[index]);
@@ -155,22 +155,16 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
           const html = `
             <br>
             <br>
-            <div class="rangeslider" id="${sliderId}"></div>
+            <div class="rangeslider" id="${fieldvar}"></div>
             <br>
             <span class="rangeslider_text_left">${leftDataText[index]}</span>
             <span class="rangeslider_text_right">${rightDataText[index]}</span>
           `
 
-          $(`div[data-mlm-field="${sliderId}"]`).append(html);
+          $(`div[data-mlm-field="${fieldvar}"]`).append(html);
 
-        });
-
-        $(".<?php echo $sliderDivClass ?>").each(function( i ) {
-
-          var fieldvar = $(this).closest('tr').attr('sq_id');
-
-          var fieldvar_1 = fieldvar + '<?php echo $leftMarkerFieldnameSuffix ?>';
-          var fieldvar_2 = fieldvar + '<?php echo $rightMarkerFieldnameSuffix ?>';
+          var fieldvar_1 = leftDataLoc[index];
+          var fieldvar_2 = rightDataLoc[index];
 
           var tmpMinVal1 = $('[name="' + fieldvar_1 + '"]').val();
           var tmpMinVal2 = $('[name="' + fieldvar_2 + '"]').val();
