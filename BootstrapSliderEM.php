@@ -1,171 +1,169 @@
 <?php
+
 namespace Utah\BootstrapSliderEM;
 
-class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule {
+class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
+{
+
+  protected $styleSheetURL = "";
+  protected $jsFileURL = "";
+
+  function __construct()
+  {
+    parent::__construct(); // run the AbstractExternalModule constructor
+
+    // this will resolve to the URL for the stylesheet, taking into account the version directory etc
+    $this->styleSheetURL = $this->getUrl("css/bootstrap-slider.css");
+
+    // this will resolve to the URL for the JS file, taking into account the version directory etc
+    $this->jsFileURL = $this->getUrl("js/bootstrap-slider.js");
+  } // __construct
 
   function redcap_survey_page_top($project_id, $record, $instrument)
   {
-    $this->bootstrapSlider();
+    $this->bootstrapSliderHook();
   }
 
   function redcap_data_entry_form_top($project_id, $record, $instrument)
   {
-    $this->bootstrapSlider();
+    $this->bootstrapSliderHook();
   }
 
   function bootstrapSlider()
   {
-    /*
-    * adapted from filename: pid5505_hook_script.php
-    */
+    ?>
+    <script>
+      // attach the style sheet to this page
+      console.log(`attaching stylesheet from <?php echo $this->styleSheetURL ?>`)
+      $('head').append("<link rel='stylesheet' type='text/css' href='<?php echo $this->styleSheetURL ?>'>");
 
-    /*
-    * references:
-    *    http://seiyria.com/bootstrap-slider/
-    *    https://github.com/seiyria/bootstrap-slider
-    *    http://jsfiddle.net/6hyVP/2/
-    *    https://www.tutorialspoint.com/jqueryui/jqueryui_slider.htm
-    *    http://api.jqueryui.com/slider
-    *    http://www.w3schools.com/jquery/jquery_ref_selectors.asp
-    *    http://learn.jquery.com/jquery-ui/
-    *    http://learn.jquery.com/jquery-ui/widget-factory/classes-option/
-    * ** http://stackoverflow.com/questions/27235057/jquery-ui-slider-range-styling-left-and-right-as-well   ( http://jsfiddle.net/lebolo/86js5pp6/ )
-    */
+      // attach the js file to this page
+      console.log(`attaching JS file from <?php echo $this->jsFileURL ?>`)
+      $('head').append("<script type='text/javascript' src='<?php echo $this->jsFileURL ?>'>");
 
-        $enableRangeSlider  = 1;
+      // jQuery doc load callback function
+      $(document).ready(function() {
+        // add div where bootstrapSlider will reside
+        console.log(`creating bootstrapSlider div`)
+        $('#slider_descriptive-tr').after("<div id='bootstrapSlider'></div>");
 
-        $sliderDivClass  = 'rangeslider';
-        $prependToIdName = '';
-        $appendToIdName  = '';
+        console.log(`creating p tag`)
+        $('#bootstrapSlider').load("<p>this is here as a test</p>");
+      });
+    </script>
+    <?php
 
-        //redcap_info();
+  } // bootstrapSlider
 
-        $sliderWidth  = '500px';
-        $sliderHeight = '10px';
-        $handleWidth  = '8px';
+  function bootstrapSliderHook()
+  {
+    $sliderDivClass  = 'rangeslider';
 
-        $leftMarkerFieldnameSuffix = '_1';
-        $rightMarkerFieldnameSuffix = '_2';
+    //redcap_info();
 
-        $minValue = 0;
-        $maxValue = 100;
+    $sliderWidth  = '500px';
+    $sliderHeight = '10px';
+    $handleWidth  = '8px';
 
-        $presetMinValue = 10;
-        $presetMaxValue = 90;
+    $leftMarkerFieldnameSuffix = '_1';
+    $rightMarkerFieldnameSuffix = '_2';
 
-        $colorCenter    = 'yellow';
+    $minValue = 0;
+    $maxValue = 100;
 
-        $thisHookCssFile1 = APP_PATH_WEBROOT_FULL . 'hooks/pid5505/css/bootstrap.min.css';
-        $thisHookCssFile2 = APP_PATH_WEBROOT_FULL . 'hooks/pid5505/css/bootstrap-slider.css';
+    $presetMinValue = 10;
+    $presetMaxValue = 90;
 
-        $bootstrapFile1 = APP_PATH_WEBROOT_FULL . 'hooks/pid5505/lib/bootstrap-slider.min.js';
-        $bootstrapFile2 = APP_PATH_WEBROOT_FULL . 'hooks/pid5505/lib/bootstrap-slider.js';
-        $bootstrapFile3 = APP_PATH_WEBROOT_FULL . 'hooks/pid5505/lib/bootstrap-slider.min.css';
-        $bootstrapFile4 = APP_PATH_WEBROOT_FULL . 'hooks/pid5505/lib/bootstrap-slider.css';
+    $colorCenter    = 'yellow';
 
-        //==================================================================================
-        //                        No edits needed below this point.
-        //==================================================================================
+    //===========================================================
 
-        // echo<<<EOT
-        // <link rel="stylesheet" type="text/css" media="all" href="{$thisHookCssFile2}">
-        // EOT;
+    ?>
+    <script>
+      // attach the style sheet to this page
+      $('head').append("<link rel='stylesheet' type='text/css' href='<?php echo $this->styleSheetURL ?>'>");
 
-        echo <<<EOT
-        <script type="text/javascript" src="{$bootstrapFile1}"></script>
-        <script type="text/javascript" src="{$bootstrapFile2}"></script>
-        <link rel="stylesheet" type="text/css" media="all" href="{$bootstrapFile3}">
-        <link rel="stylesheet" type="text/css" media="all" href="{$bootstrapFile4}">
-        EOT;
-
-        echo <<<EOT
+      // attach the js file to this page
+      $('head').append("<script type='text/javascript' src='<?php echo $this->jsFileURL ?>'>");
+    </script>
     <style>
-    #slider12a .slider-track-high, #slider12c .slider-track-high {
-      background: green;
-    }
+      #slider12a .slider-track-high, #slider12c .slider-track-high {
+        background: green;
+      }
 
-    #slider12b .slider-track-low, #slider12c .slider-track-low {
-      background: red;
-    }
+      #slider12b .slider-track-low, #slider12c .slider-track-low {
+        background: red;
+      }
 
-    .slider-selection {
-      background: yellow;
-    }
+      .slider-selection {
+        background: yellow;
+      }
 
-    .ui-slider-range {
-        background: {$colorCenter};
-    }
+      .ui-slider-range {
+          background: <?php echo $colorCenter ?>;
+      }
 
-    .ui-slider-range-low {
-        background: blue;
-    }
+      .ui-slider-range-low {
+          background: blue;
+      }
 
 
-    .testslider {
-      background: purple;
-    }
+      .testslider {
+        background: purple;
+      }
 
-    .rangeslider {
-      width: {$sliderWidth};
-      height: {$sliderHeight};
-    }
+      .rangeslider {
+        width: <?php echo $sliderWidth ?>;
+        height: <?php echo $sliderHeight ?>;
+      }
 
-    .ui-slider .ui-slider-handle {
-        width: {$handleWidth};
-    ;    text-decoration:none;
-    ;    text-align:center;
-    }
-            
-    .rangeslider {
-      background-image: -webkit-linear-gradient(left, red 50%, blue 50%);     
-    }
-          
+      .ui-slider .ui-slider-handle {
+          width: <?php echo $handleWidth ?>;
+          text-decoration: none;
+          text-align: center;
+      }
+              
+      .rangeslider {
+        background-image: -webkit-linear-gradient(left, red 50%, blue 50%);     
+      }
+      
+      .rangeslider_text_left {
+        color: red;
+        position: relative;
+        right: 30px;
+      }
+        .rangeslider_text_right {
+        color: blue;
+        position: relative;
+        left: 280px;
+      }
+
     </style>
-    EOT;
-
-        echo <<<EOT
-    <style>
-    .rangeslider_text_left {
-      color: red;
-      position: relative;
-      right: 30px;
-    }
-    .rangeslider_text_right {
-      color: blue;
-      position: relative;
-      left: 280px;
-    }    
-    </style>
-    EOT;
-
-
-        if ($enableRangeSlider == 1) {
-          echo <<<EOT
     <script type="text/javascript">
 
-    $(document).ready( function(){
+      $(document).ready( function(){
 
-      $(".{$sliderDivClass}").each(function( i ) {
-        
+        $(".<?php echo $sliderDivClass ?>").each(function( i ) {
+
           var fieldvar = $(this).closest('tr').attr('sq_id');
 
-          var idSelector = '{$prependToIdName}' + fieldvar + '{$appendToIdName}';
-                
-          var fieldvar_1 = fieldvar + '{$leftMarkerFieldnameSuffix}';
-          var fieldvar_2 = fieldvar + '{$rightMarkerFieldnameSuffix}';
+          var idSelector = fieldvar;
+
+          var fieldvar_1 = fieldvar + '<?php echo $leftMarkerFieldnameSuffix ?>';
+          var fieldvar_2 = fieldvar + '<?php echo $rightMarkerFieldnameSuffix ?>';
 
           var tmpMinVal1 = $('[name="' + fieldvar_1 + '"]').val();
           var tmpMinVal2 = $('[name="' + fieldvar_2 + '"]').val();
 
-          var minVal = (tmpMinVal1 == '') ? {$presetMinValue} : tmpMinVal1;
-          var maxVal = (tmpMinVal2 == '') ? {$presetMaxValue} : tmpMinVal2;
+          var minVal = (tmpMinVal1 == '') ? <?php echo $presetMinValue ?> : tmpMinVal1;
+          var maxVal = (tmpMinVal2 == '') ? <?php echo $presetMaxValue ?> : tmpMinVal2;
 
-          var myMin = ($minValue);
-          var myMax = {$maxValue};
-          
-          //var leftColor  = {$colorLeftside};
+          var myMin = <?php echo $minValue ?>;
+          var myMax = <?php echo $maxValue ?>;
+
+          //var leftColor = {$colorLeftside};
           //var rightcolor = {$colorRightside};
-          
+
           //$('#'+idSelector).bootstrapSlider({
           $('#'+idSelector).slider({
             id: "myslider",
@@ -174,21 +172,20 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule {
             min: myMin,
             max: myMax,
             values: [ minVal, maxVal ],
-            
+
             slide: function( event, ui ) {
-                $('[name="' + fieldvar_1 + '"]').val(ui.values[0]);
-                $('[name="' + fieldvar_2 + '"]').val(ui.values[1]);
-                
-                var left  = 100 * (ui.values[0] - myMin) / (myMax - myMin);
-                var right = 100 * (ui.values[1] - myMin) / (myMax - myMin);
-                $(this).css('background-image', '-webkit-linear-gradient(left, red ' + left + '%, blue ' + right + '%)');
-            } 
-              
+              $('[name="' + fieldvar_1 + '"]').val(ui.values[0]);
+              $('[name="' + fieldvar_2 + '"]').val(ui.values[1]);
+
+              var left = 100 * (ui.values[0] - myMin) / (myMax - myMin);
+              var right = 100 * (ui.values[1] - myMin) / (myMax - myMin);
+              $(this).css('background-image', '-webkit-linear-gradient(left, red ' + left + '%, blue ' + right + '%)');
+            }
+
           });
+        });
       });
-    });
-    </script>
-    EOT;
-        } //end if: enableRangeSlider
+        </script>
+    <?php
   }
 }
