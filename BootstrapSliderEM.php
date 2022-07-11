@@ -27,13 +27,13 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
 
   function redcap_survey_page_top($project_id, $record, $instrument)
   {
-    $this->bootstrapSliderHook($project_id);
+    //$this->bootstrapSliderHook($project_id);
     $this->bootstrapSlider($project_id);
   }
 
   function redcap_data_entry_form_top($project_id, $record, $instrument)
   {
-    $this->bootstrapSliderHook($project_id);
+    //$this->bootstrapSliderHook($project_id);
     $this->bootstrapSlider($project_id);
   }
 
@@ -44,16 +44,11 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
     // access EM project settings and return array of variables set
     $this->configuredVariables = $this->getProjectSettings();
 
-    $sliderDivClass  = 'rangeslider';
-
     //redcap_info();
 
     $sliderWidth  = '500px';
     $sliderHeight = '10px';
     $handleWidth  = '8px';
-
-    $leftMarkerFieldnameSuffix = '_1';
-    $rightMarkerFieldnameSuffix = '_2';
 
     $minValue = 0;
     $maxValue = 100;
@@ -84,18 +79,6 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
       
     </script>
     <style>
-      #slider12a .slider-track-high, #slider12c .slider-track-high {
-        background: green;
-      }
-
-      #slider12b .slider-track-low, #slider12c .slider-track-low {
-        background: red;
-      }
-
-      .slider-selection {
-        background: yellow;
-      }
-
       .ui-slider-range {
           background: <?php echo $colorCenter ?>;
       }
@@ -104,24 +87,16 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
           background: blue;
       }
 
-
-      .testslider {
-        background: purple;
-      }
-
       .rangeslider {
         width: <?php echo $sliderWidth ?>;
         height: <?php echo $sliderHeight ?>;
+        background-image: -webkit-linear-gradient(left, red 50%, blue 50%); 
       }
 
       .ui-slider .ui-slider-handle {
           width: <?php echo $handleWidth ?>;
           text-decoration: none;
           text-align: center;
-      }
-              
-      .rangeslider {
-        background-image: -webkit-linear-gradient(left, red 50%, blue 50%);     
       }
       
       .rangeslider_text_left {
@@ -140,17 +115,10 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
     <script type="text/javascript">
 
       $(document).ready( function(){
-
-        // insert required elements into the designated div elements
-        console.log(JSconfiguredVariables["descriptive-text-loc"]["value"]);
-        console.log(descriptiveTextLoc);
         
+        // iterate over configured elements to insert required div elements,
+        // then set up the slider element within the inserted div elements
         descriptiveTextLoc.forEach(function(fieldvar, index) {
-          console.log(fieldvar);
-          console.log(leftDataLoc[index]);
-          console.log(leftDataText[index]);
-          console.log(rightDataLoc[index]);
-          console.log(rightDataText[index]);
 
           const html = `
             <br>
