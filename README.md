@@ -4,7 +4,7 @@
 
 This REDCap external module provides a packaged way to render [`bootstrap-slider`](https://github.com/seiyria/bootstrap-slider) within REDCap data entry forms and surveys.
 
-The current version only renders [the third slider from Example 12](https://seiyria.com/bootstrap-slider/#example-12), with hardcoded values, slider sizes, and slider values.
+The current version only renders [the third slider from Example 12](https://seiyria.com/bootstrap-slider/#example-12), with hardcoded colors, slider sizes, and slider values.
 
 Colors on the slider are in this order: red, yellow, and blue.
 
