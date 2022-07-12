@@ -17,6 +17,10 @@ In order to render a slider, a data entry form or survey must have three fields:
 2. a text field, to store the low value
 3. another text field, to store the high value
 
+The text fields must use the @HIDDEN action tag, or they will appear on the data entry form/survey and be editable. Alternatively, if you want the values to be visible but not editable, you can use the @READONLY action tag for the text fields. 
+
+The module currently does not have the ability to show the value selected directly on the slider.
+
 Once these fields exists, they must be selected within the external module project configuration page for the sliders to be rendered.
 
 Here is what a configuration should look like:
