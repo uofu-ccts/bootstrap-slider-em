@@ -43,10 +43,13 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
 
     //redcap_info();
 
-    $sliderWidth  = '500px';
+
+    //TODO: remove slider width
+    //$sliderWidth  = '500px';
     $sliderHeight = '10px';
     $handleWidth  = '8px';
 
+    //TODO: add configuration option to use 0/10, but default to 0/100
     $minValue = 0;
     $maxValue = 100;
 
@@ -84,8 +87,9 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
           background: blue;
       }
 
+      /* TODO: fix background color when sliders at extremes */
       .rangeslider {
-        width: <?php echo $sliderWidth ?>;
+        /* width: <?php //echo $sliderWidth ?>; */
         height: <?php echo $sliderHeight ?>;
         background-image: -webkit-linear-gradient(left, red 50%, blue 50%); 
       }
@@ -96,16 +100,34 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
           text-align: center;
       }
       
+      .rangeslider_text_container {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+      }
+
       .rangeslider_text_left {
+        flex: none;
+        order: 0;
         color: red;
-        position: relative;
-        right: 30px;
       }
       
       .rangeslider_text_right {
+        flex: none;
+        order: 1;
+        color: blue;
+      }
+      
+      .rangeslider_text_left_inside {
         color: blue;
         position: relative;
-        left: 280px;
+        right: 0px;
+      }
+      
+      .rangeslider_text_right_inside {
+        color: red;
+        position: relative;
+        left: 500px;
       }
 
     </style>
@@ -122,8 +144,10 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
             <br>
             <div class="rangeslider" id="${fieldvar}"></div>
             <br>
-            <span class="rangeslider_text_left">${leftDataText[index]}</span>
-            <span class="rangeslider_text_right">${rightDataText[index]}</span>
+            <div class="rangeslider_text_container">
+              <div class="rangeslider_text_left">${leftDataText[index]}</div>
+              <div class="rangeslider_text_right">${rightDataText[index]}</div>
+            </div>
           `
 
           $(`div[data-mlm-field="${fieldvar}"]`).append(html);
