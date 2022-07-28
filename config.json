@@ -52,10 +52,20 @@
           "type": "field-list"
         },
         {
-          "key": "left-data-text",
-          "name": "Text to show on left (low value) side of slider",
-          "required": true,
-          "type": "text"
+          "key": "left-data-min",
+          "name": "Minimum value for left data point",
+          "required": false,
+          "type": "dropdown",
+          "choices": [
+            {
+              "name": "0",
+              "value": 0
+            },
+            {
+              "name": "1",
+              "value": 1
+            }
+          ]
         },
         {
           "key": "right-data-loc",
@@ -64,10 +74,20 @@
           "type": "field-list"
         },
         {
-          "key": "right-data-text",
-          "name": "Text to show on right (high value) side of slider",
-          "required": true,
-          "type": "text"
+          "key": "right-data-max",
+          "name": "Maximum value for right data point",
+          "required": false,
+          "type": "dropdown",
+          "choices": [
+            {
+              "name": "10",
+              "value": 10
+            },
+            {
+              "name": "100",
+              "value": 0
+            }
+          ]
         }
       ]
     }

@@ -41,17 +41,8 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
     // access EM project settings and return array of variables set
     $this->configuredVariables = $this->getProjectSettings();
 
-    //redcap_info();
-
-    $sliderWidth  = '500px';
     $sliderHeight = '10px';
     $handleWidth  = '8px';
-
-    $minValue = 0;
-    $maxValue = 100;
-
-    $presetMinValue = 10;
-    $presetMaxValue = 90;
 
     $colorCenter    = 'yellow';
 
@@ -70,9 +61,9 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
 
       const descriptiveTextLoc = JSconfiguredVariables["descriptive-text-loc"]["value"];
       const leftDataLoc = JSconfiguredVariables["left-data-loc"]["value"];
-      const leftDataText = JSconfiguredVariables["left-data-text"]["value"];
+      const leftDataMin = JSconfiguredVariables["left-data-min"]["value"];
       const rightDataLoc = JSconfiguredVariables["right-data-loc"]["value"];
-      const rightDataText = JSconfiguredVariables["right-data-text"]["value"];
+      const rightDataMax = JSconfiguredVariables["right-data-max"]["value"];
       
     </script>
     <style>
@@ -85,9 +76,9 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
       }
 
       .rangeslider {
-        width: <?php echo $sliderWidth ?>;
+        /* width: <?php //echo $sliderWidth ?>; */
         height: <?php echo $sliderHeight ?>;
-        background-image: -webkit-linear-gradient(left, red 50%, blue 50%); 
+        /* background-image: -webkit-linear-gradient(left, red 50%, blue 50%);  */
       }
 
       .ui-slider .ui-slider-handle {
@@ -96,16 +87,22 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
           text-align: center;
       }
       
+      .rangeslider_text_container {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+      }
+
       .rangeslider_text_left {
-        color: red;
-        position: relative;
-        right: 30px;
+        flex: none;
+        order: 0;
+        color: blue;
       }
       
       .rangeslider_text_right {
-        color: blue;
-        position: relative;
-        left: 280px;
+        flex: none;
+        order: 1;
+        color: red;
       }
 
     </style>
@@ -117,47 +114,56 @@ class BootstrapSliderEM extends \ExternalModules\AbstractExternalModule
         // then set up the slider element within the inserted div elements
         descriptiveTextLoc.forEach(function(fieldvar, index) {
 
+          var fieldvar_1 = leftDataLoc[index];
+          var fieldvar_2 = rightDataLoc[index];
+
+          var leftText = $('[data-mlm-field="' + fieldvar_1 + '"]').text();
+          var rightText = $('[data-mlm-field="' + fieldvar_2 + '"]').text();
+
           const html = `
             <br>
             <br>
             <div class="rangeslider" id="${fieldvar}"></div>
             <br>
-            <span class="rangeslider_text_left">${leftDataText[index]}</span>
-            <span class="rangeslider_text_right">${rightDataText[index]}</span>
+            <div class="rangeslider_text_container">
+              <div class="rangeslider_text_left">${leftText}</div>
+              <div class="rangeslider_text_right">${rightText}</div>
+            </div>
           `
 
           $(`div[data-mlm-field="${fieldvar}"]`).append(html);
 
-          var fieldvar_1 = leftDataLoc[index];
-          var fieldvar_2 = rightDataLoc[index];
+          var minValue = (leftDataMin[index] == 0) ? 0 : leftDataMin[index];
+          var maxValue = (rightDataMax[index] == 0) ? 100 : rightDataMax[index];
 
-          var tmpMinVal1 = $('[name="' + fieldvar_1 + '"]').val();
-          var tmpMinVal2 = $('[name="' + fieldvar_2 + '"]').val();
+          var presetMin = Math.floor(maxValue * 0.1);
+          var presetMax = Math.floor(maxValue * 0.9);
 
-          var minVal = (tmpMinVal1 == '') ? <?php echo $presetMinValue ?> : tmpMinVal1;
-          var maxVal = (tmpMinVal2 == '') ? <?php echo $presetMaxValue ?> : tmpMinVal2;
+          var tmpVal1 = $('[name="' + fieldvar_1 + '"]').val();
+          var tmpVal2 = $('[name="' + fieldvar_2 + '"]').val();
 
-          var myMin = <?php echo $minValue ?>;
-          var myMax = <?php echo $maxValue ?>;
+          var minSelected = (tmpVal1 == '') ? presetMin : tmpVal1;
+          var maxSelected = (tmpVal2 == '') ? presetMax : tmpVal2;
 
-          //var leftColor = {$colorLeftside};
-          //var rightcolor = {$colorRightside};
+          var leftStart = 100 * (minSelected - minValue) / (maxValue - minValue);
+          var rightStart = 100 * (maxSelected - minValue) / (maxValue - minValue);
+          $('#'+fieldvar).css('background-image', '-webkit-linear-gradient(left, blue ' + leftStart + '%, red ' + rightStart + '%)');
 
           $('#'+fieldvar).slider({
             id: "myslider",
             classes: { "rangeslider": "testslider" },
             range: true,
-            min: myMin,
-            max: myMax,
-            values: [ minVal, maxVal ],
+            min: minValue,
+            max: maxValue,
+            values: [ minSelected, maxSelected ],
 
             slide: function( event, ui ) {
               $('[name="' + fieldvar_1 + '"]').val(ui.values[0]);
               $('[name="' + fieldvar_2 + '"]').val(ui.values[1]);
 
-              var left = 100 * (ui.values[0] - myMin) / (myMax - myMin);
-              var right = 100 * (ui.values[1] - myMin) / (myMax - myMin);
-              $(this).css('background-image', '-webkit-linear-gradient(left, red ' + left + '%, blue ' + right + '%)');
+              var left = 100 * (ui.values[0] - minValue) / (maxValue - minValue);
+              var right = 100 * (ui.values[1] - minValue) / (maxValue - minValue);
+              $(this).css('background-image', '-webkit-linear-gradient(left, blue ' + left + '%, red ' + right + '%)');
             }
 
           });
