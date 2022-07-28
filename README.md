@@ -23,6 +23,8 @@ In order to render a slider, a data entry form or survey must have three fields:
 
 **The labels from the text fields will be used as the selection text for the slider, appearing underneath the slider in their respective colors. Make sure to use the labels that you want appearing as options on the slider.**
 
+![screenshot of slider in data entry form](img/slider-preview.png)
+
 The module currently does not have the ability to show the value selected directly on the slider.
 
 Once these fields exists, they must be selected within the external module project configuration page for the sliders to be rendered.
@@ -41,4 +43,5 @@ Here is what a configuration should look like:
 ## Changelog
 
 **2022/07/27**: implements changes in color order, configurable minimum & maximum values, now extracts slider labels from configured text field
+
 **2022/07/12**: 1st working version
